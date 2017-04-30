@@ -1,14 +1,10 @@
-FROM debian:jessie
-MAINTAINER DAVID Stefan <stefda@gmail.com>
+FROM alpine:latest
+MAINTAINER David Stefan <stefda@gmail.com>
 
-RUN apt-get update && \
-  DEBIAN_FRONTEND=noninteractive apt-get install -yq --no-install-recommends rsync && \
-  apt-get clean autoclean && \
-  apt-get autoremove -y && \
-  rm -rf /var/lib/apt/lists/*
+RUN apk update && apk add rsync
 
 EXPOSE 873
-VOLUME /docker
-ADD ./rsync /usr/local/bin/rsync
+VOLUME /volume
+ADD ./entrypoint.sh /entrypoint.sh
 
-ENTRYPOINT ["/usr/local/bin/rsync"]
+ENTRYPOINT ["/entrypoint.sh"]
