@@ -9,4 +9,5 @@ The simplest use case is to run the image and map its 873 port:
 
 ```$ docker run stefda/rsync -p 873:873```
 
-The command above will spin up a container that listens on port 873 for rsync connections.
+The command above will spin up a container that listens on port 873 for rsync connections. To push files into the
+container, you may use `rsync -rtR <file-or-directory> rsync://<docker-host-ip>:873/volume`.
