@@ -5,6 +5,8 @@ OWNER=${OWNER:-nobody}
 GROUP=${GROUP:-nogroup}
 
 mkdir -p ${VOLUME}
+addgroup ${GROUP}
+adduser -D -H -G ${GROUP} ${OWNER}
 chown ${OWNER}:${GROUP} ${VOLUME}
 
 cat <<EOF > /etc/rsyncd.conf
