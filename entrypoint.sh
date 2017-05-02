@@ -1,17 +1,17 @@
 #!/bin/sh
 VOLUME=${VOLUME:-/volume}
 ALLOW=${ALLOW:-192.168.0.0/16 172.16.0.0/12}
-OWNER=${OWNER:-nobody}
+USER=${USER:-nobody}
 GROUP=${GROUP:-nogroup}
 
 mkdir -p ${VOLUME}
 
 getent group ${GROUP} > /dev/null || addgroup ${GROUP}
-getent passwd ${OWNER} > /dev/null || adduser -D -H -G ${GROUP} ${OWNER}
-chown -R ${OWNER}:${GROUP} ${VOLUME}
+getent passwd ${USER} > /dev/null || adduser -D -H -G ${GROUP} ${USER}
+chown -R ${USER}:${GROUP} ${VOLUME}
 
 cat <<EOF > /etc/rsyncd.conf
-uid = ${OWNER}
+uid = ${USER}
 gid = ${GROUP}
 use chroot = yes
 log file = /dev/stdout
