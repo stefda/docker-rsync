@@ -18,3 +18,29 @@ The module path, owning user, group and allowed hosts are all configurable via e
 ```bash
 $ docker run stefda/rsync -p 873:873 -e VOLUME=/my/volume -e USER=www-data -e GROUP=www-data -e ALLOW="192.168.0.0/16 10.0.0.0/16"
 ```
+
+# Using the image with docker-compose
+
+An example usage with docker-compose:
+ 
+```yaml
+version: '2'
+services:
+  rsync-volume:
+    image: stefda/rsync
+    volumes:
+      - /var/www/app/src
+    environment:
+      VOLUME: /var/www/app
+      USER: www-data
+      GROUP: www-data
+    ports:
+      - 10873:873
+      
+  web:
+    image: my-app-image
+    volumes_from:
+      - rsync-volume
+```
+
+As defined, the `web` service will have volumes from the `rsync-volume` service and so any files synced into the rsync container will be immediately available in `web` as well. 
